@@ -1,0 +1,31 @@
+{
+  "name": "puppet-wds",
+  "version": "0.0.1",
+  "author": "Chris Smith",
+  "summary": "This modules manages the WDS service on a windows server.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/huricane999/puppet-wds.git",
+  "project_page": "https://github.com/huricane999/puppet-wds",
+  "issues_url": "https://github.com/huricane999/puppet-wds/issues",
+  "description": "Manage the Windows Deployment Service",
+  "dependencies": [
+  ],
+  "data_provider": null,
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Windows",
+      "operatingsystemrelease": ["2012 R2", "2016"]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": ">= 3.0.0 < 5.0.0"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": ">= 3.0.0 < 5.0.0"
+    }
+  ]
+}
+
