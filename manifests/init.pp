@@ -1,48 +1,25 @@
 # Class: wds
-# ===========================
-#
-# Full description of class wds here.
-#
-# Parameters
-# ----------
-#
-# Document parameters here.
-#
-# * `sample parameter`
-# Explanation of what this parameter affects and what it defaults to.
-# e.g. "Specify one or more upstream ntp servers as an array."
-#
-# Variables
-# ----------
-#
-# Here you should define a list of variables that this module would require.
-#
-# * `sample variable`
-#  Explanation of how this variable affects the function of this class and if
-#  it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#  External Node Classifier as a comma separated list of hostnames." (Note,
-#  global variables should be avoided in favor of class parameters as
-#  of Puppet 2.6.)
-#
-# Examples
-# --------
-#
-# @example
-#    class { 'wds':
-#      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#    }
-#
-# Authors
-# -------
-#
-# Author Name <author@domain.com>
-#
-# Copyright
-# ---------
-#
-# Copyright 2017 Your name here, unless otherwise noted.
-#
-class wds {
+# Initialize WDS
+class wds(
+  $install_feature     = $wds::params::install_feature,
+  $ensure_service      = $wds::params::ensure_service
+  $enable_service      = $wds::params::enable_service
+  $feature_name        = $wds::params::feature_name
+  $remote_install_path = $wds::params::remote_install_path
+) inherits $wds::params {
+  if $::osfamily == 'Windows' {
+    validate_boolean($install_feature)
+    validate_string($ensure_service)
+    validate_boolean($enable_service)
+    validate_string($feature_name)
+    validate_string($remote_install_path)
 
-
+    anchor{'wds::begin':} ->
+    class{'::wds::install':} ->
+    class{'::wds::config':} ~>
+    class{'::wds::service':} ->
+    anchor{'wds::end':}
+  } else {
+    fail { "This operating system family (${::osfamily}) is not supported.": }
+  }
 }
