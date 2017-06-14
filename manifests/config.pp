@@ -1,6 +1,7 @@
 # Class wds::config
 class wds::config (
   Boolean $initialize = $::wds::params::initialize,
+  String $remote_install_path = $::wds::params::remote_install_path
   Boolean $authorize = $::wds::params::authorize,
   Boolean $rogue_detection = $::wds::params::rogue_detection,
   String $answer_clients = $::wds::params::answer_clients,
@@ -66,6 +67,11 @@ class wds::config (
   Boolean $transport_multicast_session_policy_fallback = $::wds::params::transport_multicast_session_policy_fallback,
   Boolean $transport_force_native = $::wds::params::transport_force_native,
 ) inherits wds {
+  exec { 'Initialize WDS Server':
+    command => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_location}\"",
+    unless  => 'C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All',
+  }
+  
   if $::wds_conf {
     if $answer_clients != 'All' and $answer_clients != 'Known' and $answer_clients != 'None' {
       fail("::wds::config::answer_clients (${answer_clients}) must be one of 'All', 'Known', or 'None'")
@@ -172,11 +178,6 @@ class wds::config (
         command => "C:\\Windows\\System32\\wdsutil.exe /Uninitialize-Server",
         before  => Exec['Initialize WDS Server'],
       }
-    }
-
-    exec { 'Initialize WDS Server':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${::wds::config::remote_install_location}\"",
-      unless  => 'C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All',
     }
 
     class { '::wds::config::apply_settings':
