@@ -67,9 +67,11 @@ class wds::config (
   Boolean $transport_multicast_session_policy_fallback = $::wds::params::transport_multicast_session_policy_fallback,
   Boolean $transport_force_native = $::wds::params::transport_force_native,
 ) inherits wds {
-  exec { 'Initialize WDS Server':
-    command => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_location}\"",
-    unless  => 'C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All',
+  if $initialize {
+    exec { 'Initialize WDS Server':
+      command => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_location}\"",
+      unless  => 'C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All',
+    }
   }
   
   if $::wds_conf {
