@@ -44,6 +44,10 @@ function processLines($pl)
                 } Else {
                     $section[$new_section] = processLines($level)
                 }
+
+                If ($new_section.CompareTo("wds_unattend_files") -And $section[$new_section].Count = 0) {
+                    $section[$new_section] = @{ 'x86': '', 'x64': '', 'ia64': '' }
+                }
             } ElseIf ($line.StartsWith(" ")) {
                 If ($line.Contains(":")) {
                     $setting = $line.Trim() -Replace ":.*",""
@@ -53,13 +57,10 @@ function processLines($pl)
                         $value = $value -Replace " second.*",""
                     } ElseIf ($value.Contains(" minute")) {
                         $value = $value -Replace " minute.*",""
-                        $value = ([TimeSpan]$value).TotalSeconds
                     } ElseIf ($value.Contains(" hour")) {
                         $value = $value -Replace " hour.*",""
-                        $value = ([TimeSpan]$value).TotalSeconds
                     } ElseIf ($value.Contains(" day")) {
                         $value = $value -Replace " day.*",""
-                        $value = ([TimeSpan]$value).TotalSeconds
                     } ElseIf ($value.Contains(" time")) {
                         $value = $value -Replace " time.*",""
                     }
