@@ -87,4 +87,4 @@ $ln = 0
 
 $WDSSettings = processLines(0)
 
-Write-Host "wds_conf = $(ConvertTo-JSON -InputObject $WDSSettings -Compress)"
+Write-Host "wds_conf=$(ConvertTo-JSON -InputObject $WDSSettings -Compress)"
