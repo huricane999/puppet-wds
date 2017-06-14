@@ -9,6 +9,10 @@
   "issues_url": "https://github.com/huricane999/puppet-wds/issues",
   "description": "Manage the Windows Deployment Service",
   "dependencies": [
+    {
+      "name": "puppetlabs-dsc",
+      "version_requirement": ">= 1.3.0"
+    }
   ],
   "data_provider": null,
   "operatingsystem_support": [
