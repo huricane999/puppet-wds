@@ -309,24 +309,30 @@ class wds::config::apply_settings {
   }
 
   #WDS Unattend File - x86
-  if $::wds::config::wds_unattend_file_x86 != $::wds::config::current_config['wds_client_policy']['unattend_policy']['wds_unattend_files']['x86'] {
-    exec { 'WDS Server - WDS Unattend File - x86':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /WdsUnattend /File:${::wds::config::wds_unattend_file_x86} /Architecture:x86",
+  if has_key($::wds::config::current_config['wds_client_policy']['unattend_policy']['wds_unattend_files'], 'x86') {
+    if $::wds::config::wds_unattend_file_x86 != $::wds::config::current_config['wds_client_policy']['unattend_policy']['wds_unattend_files']['x86'] {
+      exec { 'WDS Server - WDS Unattend File - x86':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /WdsUnattend /File:${::wds::config::wds_unattend_file_x86} /Architecture:x86",
+      }
     }
   }
 
   #WDS Unattend File - x64
+  if has_key($::wds::config::current_config['wds_client_policy']['unattend_policy']['wds_unattend_files'], 'x64') {
   if $::wds::config::wds_unattend_file_x64 != $::wds::config::current_config['wds_client_policy']['unattend_policy']['wds_unattend_files']['x64'] {
     exec { 'WDS Server - WDS Unattend File - x64':
       command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /WdsUnattend /File:${::wds::config::wds_unattend_file_x64} /Architecture:x64",
     }
   }
+  }
 
   #WDS Unattend File - ia64
+  if has_key($::wds::config::current_config['wds_client_policy']['unattend_policy']['wds_unattend_files'], 'ia64') {
   if $::wds::config::wds_unattend_file_ia64 != $::wds::config::current_config['wds_client_policy']['unattend_policy']['wds_unattend_files']['ia64'] {
     exec { 'WDS Server - WDS Unattend File - ia64':
       command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /WdsUnattend /File:${::wds::config::wds_unattend_file_ia64} /Architecture:ia64",
     }
+  }
   }
 
   #Auto Add Policy
