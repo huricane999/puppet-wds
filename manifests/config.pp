@@ -73,7 +73,7 @@ class wds::config (
       unless  => 'C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All',
     }
   }
-  
+
   if $::wds_conf {
     if $answer_clients != 'All' and $answer_clients != 'Known' and $answer_clients != 'None' {
       fail("::wds::config::answer_clients (${answer_clients}) must be one of 'All', 'Known', or 'None'")
