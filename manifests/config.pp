@@ -69,7 +69,7 @@ class wds::config (
 ) inherits wds {
   if $initialize {
     exec { 'Initialize WDS Server':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${::remote_install_location}\"",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
       unless  => 'C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All',
     }
   }
@@ -175,7 +175,9 @@ class wds::config (
   }
 
   if $::wds_conf {
-    if $::wds::config::remote_install_location != $::wds_conf['installation_state']['remoteinstall_location'] {
+    $current_config = parsejson( $::wds_conf, {} )
+
+    if $remote_install_path != $current_config['installation_state']['remoteinstall_location'] {
       exec { 'Uninitialize WDS Server - Remote Install Path Change':
         command => "C:\\Windows\\System32\\wdsutil.exe /Uninitialize-Server",
         before  => Exec['Initialize WDS Server'],
@@ -186,7 +188,7 @@ class wds::config (
       require => Exec['Initialize WDS Server'],
     }
 
-    if $::wds::config::enable_service {
+    if $::wds::enable_service {
       exec { 'Enable WDS Services':
         command => 'C:\Windows\System32\wdsutil.exe /Enable-Server',
         require => Exec['Initialize WDS Server'],
