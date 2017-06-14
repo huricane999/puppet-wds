@@ -10,6 +10,7 @@ class wds::params {
   $remote_install_path = 'C:\RemoteInstall'
 
   #==== Config Settings ====#
+  # NOTE: For String values, case *IS* important for checking against current state
 
   # Initialize from scratch (needed if remote_install_path is not default)
   $initialize = true
@@ -23,8 +24,8 @@ class wds::params {
 
   #== PXE Options ==#
 
-  # all | known | none
-  $answer_clients = 'all'
+  # All | Known | None
+  $answer_clients = 'All'
 
   # Time in Seconds
   $response_delay = 0
@@ -32,14 +33,11 @@ class wds::params {
   # No F12 key
   $allow_n12_for_new_clients = true
 
-  # For x64 clients that do no broadcast their arch
-  $architecture_discovery = true
-
   #Determines whether the boot path will be erased for a client that has just booted without requiring an F12 key press.
   $reset_boot_program = false
 
-  # Controls boot image for x64 clients (x86 | x64 | both)
-  $default_x86_x64_image_type = 'both'
+  # Controls boot image for x64 clients (x86 | x64 | Both)
+  $default_x86_x64_image_type = 'Both'
 
   # Should PXE bind to port 67
   $use_dhcp_ports = true
@@ -47,11 +45,11 @@ class wds::params {
   # Only if DHCP is running on the same machine
   $dhcp_option_60 = false
 
-  $rpc_port = 0
+  $rpc_port = 5040
 
-  # How clients initiate PXE boot (optin | noprompt | optout)
-  $pxe_prompt_policy_known = 'optout'
-  $pxe_prompt_policy_new = 'optout'
+  # How clients initiate PXE boot (OptIn | NoPrompt | OptOut)
+  $pxe_prompt_policy_known = 'OptOut'
+  $pxe_prompt_policy_new = 'OptOut'
 
   #Specifies the relative path to the boot programs in the RemoteInstall folder
   $boot_program_x86 = ''
@@ -73,22 +71,20 @@ class wds::params {
 
   $new_machine_naming_policy = '%61Username%#'
 
-  # serverdomain | userdomain | userou | custom
-  $new_machine_type = 'userou'
+  # ServerDomain | UserDomain | UserOU | Custom
+  $new_machine_type = 'UserOU'
 
-  # OU when new_machine_type is set to cusom
+  # OU when new_machine_type is set to custom
   $new_machine_ou = ''
 
-  # Specifies the policy for searching computer accounts in AD (gconly | dcfirst)
-  $domain_search_order = 'dcfirst'
+  # Specifies the policy for searching computer accounts in AD (GCOnly | DCFirst)
+  $domain_search_order = 'GCOnly'
 
   $new_machine_domain_join = true
 
-  $ocs_menu_name = ''
-
   $wds_client_logging = true
-  # (none | errors | warnings | info)
-  $wds_client_logging_level = 'errors'
+  # (None | Errors | Warnings | Info)
+  $wds_client_logging_level = 'Info'
 
   $wds_unattend_policy = false
   $wds_unattend_commandline_precedence = false
@@ -96,13 +92,17 @@ class wds::params {
   $wds_unattend_file_x64 = ''
   $wds_unattend_file_ia64 = ''
 
-  # (adminapproval | disabled)
-  $auto_add_policy = 'disabled'
-  $auto_add_policy_poll_interval = 15
-  $auto_add_policy_max_retry = 10
+  # (AdminApproval | Disabled)
+  $auto_add_policy = 'Disabled'
+
+  #Time in seconds
+  $auto_add_policy_poll_interval = 10
+  $auto_add_policy_max_retry_count = 2160
   $auto_add_policy_message = ''
-  $auto_add_policy_retention_period_approved = 7
-  $auto_add_policy_retention_period_others = 7
+
+  #Time in days
+  $auto_add_policy_retention_period_approved = 30
+  $auto_add_policy_retention_period_others = 1
 
   $auto_add_settings_defaults = {
     boot_program        => '',
@@ -117,29 +117,32 @@ class wds::params {
   $auto_add_settings_x64 = {}
   $auto_add_settings_ia64 = {}
 
-  # Define the interfaces the PXE listens on
-  $bind_policy = 'include'
+  # Define the interfaces the PXE listens on (Include | Exclude)
+  $bind_policy = 'Exclude'
+
+  #Array of Hashes ({type => (IP | MAC), address => ''})
   $bind_policy_addresses = []
 
-  # How often the server refreshes its settings
-  $refresh_period = 600
+  # How often the server refreshes its settings (Time in seconds)
+  $refresh_period = 900
 
-  # GUIDS not allowed to connect to the server
+  # GUIDS not allowed to connect to the server (Array of GUID strings)
   $banned_guids = []
 
+  #Time in minutes (0 to disable)
   $bcd_refresh_policy_period = 0
 
-  # (dhcp | range)
-  $transport_obtain_ipv4_from = 'dhcp'
+  # (Dhcp | Range)
+  $transport_obtain_ipv4_from = 'Range'
   # transport_obtain_ipv4_from set to range
-  $transport_obtain_ipv4_from_start = ''
-  $transport_obtain_ipv4_from_end = ''
+  $transport_obtain_ipv4_from_start = '239.192.0.2'
+  $transport_obtain_ipv4_from_end = '239.192.0.254'
 
-  # (dhcp | range)
-  $transport_obtain_ipv6_from = 'dhcp'
+  # (Dhcp | Range)
+  $transport_obtain_ipv6_from = 'Range'
   # transport_obtain_ipv6_from set to range
-  $transport_obtain_ipv6_from_start = ''
-  $transport_obtain_ipv6_from_end = ''
+  $transport_obtain_ipv6_from_start = 'FF15::1:1'
+  $transport_obtain_ipv6_from_end = 'FF15::1:FF'
 
   $transport_start_port = 0
   $transport_end_port = 0
@@ -147,11 +150,11 @@ class wds::params {
   # (10Mbps | 100Mbps | 1Gbps | custom)
   $transport_profile = '1Gbps'
 
-  # (none | autodisconnect | multistream)
-  $transport_multicast_session_policy = 'multistream'
+  # (None | AutoDisconnect | Multistream)
+  $transport_multicast_session_policy = 'None'
 
   # For Auto Disconnect (Speed in KBps)
-  $transport_multicast_session_policy_threshold = 500
+  $transport_multicast_session_policy_threshold = 256
 
   # For Multistream (2 - Fast, Slow | 3 - Fast, Medium, Slow)
   $transport_multicast_session_policy_stream_count = 2
@@ -159,5 +162,6 @@ class wds::params {
   # Fall back to unicast
   $transport_multicast_session_policy_fallback = true
 
+  #Should be Native by default without setting this
   $transport_force_native = false
 }
