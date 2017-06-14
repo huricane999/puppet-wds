@@ -1,7 +1,7 @@
 # Class wds::config
 class wds::config (
   Boolean $initialize = $::wds::params::initialize,
-  String $remote_install_path = $::wds::params::remote_install_path
+  String $remote_install_path = $::wds::params::remote_install_path,
   Boolean $authorize = $::wds::params::authorize,
   Boolean $rogue_detection = $::wds::params::rogue_detection,
   String $answer_clients = $::wds::params::answer_clients,
