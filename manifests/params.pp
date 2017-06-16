@@ -109,8 +109,8 @@ class wds::params {
     wds_client_unattend => '',
     referral_server     => '',
     boot_image          => '',
-    user                => '',
-    join_rights         => 'full',
+    user                => 'Domain Admins',
+    join_rights         => 'Full',
     join_domain         => true,
   }
   $auto_add_settings_x86 = {}
