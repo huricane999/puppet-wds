@@ -409,7 +409,7 @@ class wds::config::apply_settings {
   #Auto Add Settings - x86 - User
   if $::wds::config::auto_add_settings_combined_x86['user'] != $::wds::config::current_config['pending_device_policy']['defaults_for_x86']['user'] {
     exec { 'WDS Server - Auto Add Settings - x86 - User':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:${::wds::config::auto_add_settings_combined_x86['user']} /Architecture:x86",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${::wds::config::auto_add_settings_combined_x86['user']}\" /Architecture:x86",
     }
   }
 
@@ -463,7 +463,7 @@ class wds::config::apply_settings {
   #Auto Add Settings - x64 - User
   if $::wds::config::auto_add_settings_combined_x64['user'] != $::wds::config::current_config['pending_device_policy']['defaults_for_x64']['user'] {
     exec { 'WDS Server - Auto Add Settings - x64 - User':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:${::wds::config::auto_add_settings_combined_x64['user']} /Architecture:x64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${::wds::config::auto_add_settings_combined_x64['user']}\" /Architecture:x64",
     }
   }
 
@@ -517,7 +517,7 @@ class wds::config::apply_settings {
   #Auto Add Settings - ia64 - User
   if $::wds::config::auto_add_settings_combined_ia64['user'] != $::wds::config::current_config['pending_device_policy']['defaults_for_ia64']['user'] {
     exec { 'WDS Server - Auto Add Settings - ia64 - User':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:${::wds::config::auto_add_settings_combined_ia64['user']} /Architecture:ia64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${::wds::config::auto_add_settings_combined_ia64['user']}\" /Architecture:ia64",
     }
   }
 
