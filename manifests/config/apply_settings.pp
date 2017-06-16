@@ -27,7 +27,7 @@ class wds::config::apply_settings {
     'Known': {
       if $::wds::config::current_config['answer_policy']['answer_clients'] == 'No' or $::wds::config::current_config['answer_policy']['answer_only_known_clients'] == 'No' {
         exec { 'WDS Server - Answer Known Clients':
-          command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AnswerClients:Yes',
+          command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AnswerClients:Known',
         }
       }
     }
@@ -41,7 +41,7 @@ class wds::config::apply_settings {
     default: {
       if $::wds::config::current_config['answer_policy']['answer_clients'] == 'No' or $::wds::config::current_config['answer_policy']['answer_only_known_clients'] == 'Yes' {
         exec { 'WDS Server - Answer All Clients':
-          command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AnswerClients:Yes',
+          command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AnswerClients:All',
         }
       }
     }
