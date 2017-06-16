@@ -566,14 +566,14 @@ class wds::config::apply_settings {
     exec { 'WDS Server - BCD Refresh Policy Disabled':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /BcdRefreshPolicy /Enabled:No',
     }
-  } elsif $::wds::config::bcd_refresh_policy_period == 0 and $::wds::config::bcd_refresh_policy_period != $::wds::config::current_config['bcd_refresh_policy']['enabled'] == 'No' {
+  } elsif $::wds::config::bcd_refresh_policy_period > 0 and $::wds::config::bcd_refresh_policy_period != $::wds::config::current_config['bcd_refresh_policy']['enabled'] == 'No' {
     exec { 'WDS Server - BCD Refresh Policy Enabled':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /BcdRefreshPolicy /Enabled:Yes',
     }
   }
 
   #BCD Refresh Policy Period
-  if $::wds::config::bcd_refresh_policy_period != $::wds::config::current_config['bcd_refresh_policy']['refresh_period'] {
+  if $::wds::config::bcd_refresh_policy_period > 0 and $::wds::config::bcd_refresh_policy_period != $::wds::config::current_config['bcd_refresh_policy']['refresh_period'] {
     exec { 'WDS Server - BCD Refresh Period':
       command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BcdRefreshPolicy /RefreshPeriod:${::wds::config::bcd_refresh_policy_period}",
     }
