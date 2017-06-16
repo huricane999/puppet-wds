@@ -45,8 +45,8 @@ function processLines($pl)
                     $section[$new_section] = processLines($level)
                 }
 
-                If ($new_section.CompareTo("wds_unattend_files") -And $section[$new_section].Count = 0) {
-                    $section[$new_section] = @{ 'x86': '', 'x64': '', 'ia64': '' }
+                If ($new_section.CompareTo("wds_unattend_files") -And $section[$new_section].Count -eq 0) {
+                    $section[$new_section] = @{ 'x86'=''; 'x64'=''; 'ia64'='' }
                 }
             } ElseIf ($line.StartsWith(" ")) {
                 If ($line.Contains(":")) {
