@@ -408,8 +408,9 @@ class wds::config::apply_settings {
 
   #Auto Add Settings - x86 - User
   if $::wds::config::auto_add_settings_combined_x86['user'] != $::wds::config::current_config['pending_device_policy']['defaults_for_x86']['user'] {
+    $auto_add_settings_x86_user = $::wds::config::auto_add_settings_combined_x86['user']
     exec { 'WDS Server - Auto Add Settings - x86 - User':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${::wds::config::auto_add_settings_combined_x86['user']}\" /Architecture:x86",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${auto_add_settings_x86_user}\" /Architecture:x86",
     }
   }
 
