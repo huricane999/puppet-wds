@@ -130,9 +130,9 @@ class wds::config (
     fail("::wds::config::auto_add_policy_retention_period_others (${auto_add_policy_retention_period_others}) must be greater than or equal to 0")
   }
 
-  $auto_add_settings_combined_x86 = merge($auto_add_settings_default, $auto_add_settings_x86)
-  $auto_add_settings_combined_x64 = merge($auto_add_settings_default, $auto_add_settings_x64)
-  $auto_add_settings_combined_ia64 = merge($auto_add_settings_default, $auto_add_settings_ia64)
+  $auto_add_settings_combined_x86 = merge($::wds::params::auto_add_settings_default, $auto_add_settings_x86)
+  $auto_add_settings_combined_x64 = merge($::wds::params::auto_add_settings_default, $auto_add_settings_x64)
+  $auto_add_settings_combined_ia64 = merge($::wds::params::auto_add_settings_default, $auto_add_settings_ia64)
 
   if $bind_policy != 'Include' and $bind_policy != 'Exclude' {
     fail("::wds::config::bind_policy (${bind_policy}) must be 'Include' or 'Exclude'")
