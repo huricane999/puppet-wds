@@ -1,6 +1,6 @@
 Facter.add(:wds_conf) do
   setcode do
-    $settingsRaw = Facter::Util::Resolution.exec('wdsutil /Get-Server /Show:Config').split('\r\n')
+          $settingsRaw = Facter::Util::Resolution.exec('wdsutil /Get-Server /Show:Config').split('\r\n').encode!('UTF-8')
 
     def processLines(pl)
       $section = {}
