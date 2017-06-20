@@ -179,9 +179,7 @@ class wds::config (
   }
 
   if $::wds_conf {
-    $current_config = parsejson( $::wds_conf, {} )
-
-    if $remote_install_path != $current_config['installation_state']['remoteinstall_location'] {
+    if $remote_install_path != $::wds_conf['installation_state']['remoteinstall_location'] {
       exec { 'Uninitialize WDS Server - Remote Install Path Change':
         command => "C:\\Windows\\System32\\wdsutil.exe /Uninitialize-Server",
         before  => Exec['Initialize WDS Server'],
