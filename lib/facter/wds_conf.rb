@@ -1,7 +1,7 @@
 Facter.add(:wds_conf) do
   setcode do
     $settingsRaw = Facter::Util::Resolution.exec('wdsutil /Get-Server /Show:Config')
-    $settingsRaw.encode!("UTF-8", "ISO-8859-1", :invalid => :replace, :undef => :replace, :replace => "")
+    $settingsRaw.encode!('UTF-8', 'UTF-16', :invalid => :replace, :undef => :replace, :replace => '', :universal_newline => true)
     $settings = $settingsRaw.split("\n")
     
     def processLines(pl)
@@ -20,42 +20,42 @@ Facter.add(:wds_conf) do
             break
           end
 
-          if line.include? ":" and ($ln+1) < $settings.length and ($settings[$ln+1].length - $settings[$ln+1].lstrip.length) > level
-            new_section = line.strip.downcase.sub(":","").sub(" ","_")
+          if line.include? ':' and ($ln+1) < $settings.length and ($settings[$ln+1].length - $settings[$ln+1].lstrip.length) > level
+            new_section = line.strip.downcase.sub(':','').sub(' ','_')
             $ln += 1
 
-            if new_section == "banned_guids_list" and !($settings[$ln].index(" ") == 0)
+            if new_section == 'banned_guids_list' and !($settings[$ln].index(' ') == 0)
                 section[new_section] = {}
             else
               section[new_section] = processLines(level)
             end
 
-            if new_section == "wds_unattend_files" and section[new_section].length = 0
+            if new_section == 'wds_unattend_files' and section[new_section].length = 0
               section[new_section] = { 'x86'=>'', 'x64'=>'', 'ia64'=>'' }
             end
-          elsif line.index(" ") == 0
-            if line.include? ":"
-              setting = line.strip.sub(":.*","")
-              value = line.sub(setting + ":","").strip
+          elsif line.index(' ') == 0
+            if line.include? ':'
+              setting = line.strip.sub(/:.*/,'')
+              value = line.sub(setting + ':','').strip
 
-              if value.include? " second"
-                value = value.sub(" second.*","")
-              elsif value.include? " minute"
-                value = value.sub(" minute.*","")
-              elsif value.include? " hour"
-                value = value.sub(" hour.*","")
-              elsif value.include? " day"
-                value = value.sub(" day.*","")
-              elsif value.include? " time"
-                value = value.sub(" time.*","")
+              if value.include? ' second'
+                value = value.sub(' second.*','')
+              elsif value.include? ' minute'
+                value = value.sub(' minute.*','')
+              elsif value.include? ' hour'
+                value = value.sub(' hour.*','')
+              elsif value.include? ' day'
+                value = value.sub(' day.*','')
+              elsif value.include? ' time'
+                value = value.sub(' time.*','')
               end
 
-              setting = setting.downcase.sub(" ","_")
+              setting = setting.downcase.gsub(' ','_')
               section[setting] = value
-            elsif line.include? " - "
-              setting = line.strip.sub("[ ]+-.*","")
-              value = line.sub(setting + "[ ]*-","").strip
-              setting = setting.downcase.sub(" ","_")
+            elsif line.include? ' - '
+              setting = line.strip.sub(/[ ]+-.*/,'')
+              value = line.sub(/{Regexp.escape(setting)}[ ]*-/,'').strip
+              setting = setting.downcase.gsub(' ','_')
               section[setting] = value
             end
           end
