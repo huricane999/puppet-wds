@@ -2,7 +2,7 @@ Facter.add(:wds_conf) do
   setcode do
     $settingsRaw = Facter::Util::Resolution.exec('wdsutil /Get-Server /Show:Config')
     $settingsRaw.encode!("UTF-8", "ISO-8859-1", :invalid => :replace, :undef => :replace, :replace => "")
-    $settings = $settingsRaw.split('\r\n')
+    $settings = $settingsRaw.split("\n")
     
     def processLines(pl)
       section = {}
@@ -11,8 +11,9 @@ Facter.add(:wds_conf) do
 
       while $ln < $settings.length do
         line = $settings[$ln]
+        section[$ln] = line
 
-        if line
+        if !line.to_s.strip.empty?
           level = line.length - line.lstrip.length
 
           if level < previousLevel
@@ -20,7 +21,7 @@ Facter.add(:wds_conf) do
             break
           end
 
-          if line.include? ":" and $ln+1 < $settings.length and ($settings[$ln+1].length - $settings[$ln+1].lstrip.length) > level
+          if line.include? ":" and ($ln+1) < $settings.length and ($settings[$ln+1].length - $settings[$ln+1].lstrip.length) > level
             new_section = line.strip.downcase.sub(":","").sub(" ","_")
             $ln += 1
 
@@ -40,19 +41,19 @@ Facter.add(:wds_conf) do
 
               if value.include? " second"
                 value = value.sub(" second.*","")
-              elsif value.index? " minute"
+              elsif value.include? " minute"
                 value = value.sub(" minute.*","")
-              elsif value.index? " hour"
+              elsif value.include? " hour"
                 value = value.sub(" hour.*","")
-              elsif value.index? " day"
+              elsif value.include? " day"
                 value = value.sub(" day.*","")
-              elsif value.index? " time"
+              elsif value.include? " time"
                 value = value.sub(" time.*","")
               end
 
               setting = setting.downcase.sub(" ","_")
               section[setting] = value
-            elsif line.index? " - "
+            elsif line.include? " - "
               setting = line.strip.sub("[ ]+-.*","")
               value = line.sub(setting + "[ ]*-","").strip
               setting = setting.downcase.sub(" ","_")
