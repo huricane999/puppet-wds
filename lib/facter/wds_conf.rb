@@ -32,7 +32,7 @@ Facter.add(:wds_conf) do
               section[new_section] = processLines(level)
             end
 
-            if new_section == 'wds_unattend_files' and section[new_section].length = 0
+            if new_section == 'wds_unattend_files' and section[new_section].length == 0
               section[new_section] = { 'x86'=>'', 'x64'=>'', 'ia64'=>'' }
             end
           elsif line.index(' ') == 0
