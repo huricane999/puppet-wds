@@ -1,70 +1,72 @@
 Facter.add(:wds_conf) do
   setcode do
-    $settingsRaw = Facter::Util::Resolution.exec('wdsutil /Get-Server /Show:Config').encode!('UTF-8').split('\r\n')
+    $settingsRaw = Facter::Util::Resolution.exec('wdsutil /Get-Server /Show:Config')
+    $settingsRaw.encode!("UTF-8", "ISO-8859-1", :invalid => :replace, :undef => :replace, :replace => "")
+    $settings = $settingsRaw.split('\r\n')
     
     def processLines(pl)
-      $section = {}
-      $level = 0
-      $previousLevel = pl
+      section = {}
+      level = 0
+      previousLevel = pl
 
-      while $ln <= $settingsRaw.length do
-        $line = $settingsRaw[ln]
+      while $ln < $settings.length do
+        line = $settings[$ln]
 
-        if $line
-          $level = $line.length - $line.lstrip.length
+        if line
+          level = line.length - line.lstrip.length
 
-          if $level < $previousLevel
+          if level < previousLevel
             $ln -= 1
             break
           end
 
-          if $line.include? ":" and ($settingsRaw[ln+1].length - $settingsRaw[ln+1].lstrip.length) > $level
-            $new_section = $line.strip.downcase.sub(":","").sub(" ","_")
+          if line.include? ":" and $ln+1 < $settings.length and ($settings[$ln+1].length - $settings[$ln+1].lstrip.length) > level
+            new_section = line.strip.downcase.sub(":","").sub(" ","_")
             $ln += 1
 
-            if $new_section == "banned_guids_list" and !($settingsRaw[ln].index(" ") == 0)
-                $section[$new_section] = {}
+            if new_section == "banned_guids_list" and !($settings[$ln].index(" ") == 0)
+                section[new_section] = {}
             else
-              $section[$new_section] = processLines($level)
+              section[new_section] = processLines(level)
             end
 
-            if $new_section == "wds_unattend_files" and $section[$new_section].length = 0
-              $section[$new_section] = { 'x86'=>'', 'x64'=>'', 'ia64'=>'' }
+            if new_section == "wds_unattend_files" and section[new_section].length = 0
+              section[new_section] = { 'x86'=>'', 'x64'=>'', 'ia64'=>'' }
             end
-          elsif $line.index(" ") == 0
-            if $line.include? ":"
-              $setting = $line.strip.sub(":.*","")
-              $value = $line.sub($setting + ":","").strip
+          elsif line.index(" ") == 0
+            if line.include? ":"
+              setting = line.strip.sub(":.*","")
+              value = line.sub(setting + ":","").strip
 
-              if $value.include? " second"
-                $value = $value.sub(" second.*","")
-              elsif $value.index? " minute"
-                $value = $value.sub(" minute.*","")
-              elsif $value.index? " hour"
-                $value = $value.sub(" hour.*","")
-              elsif $value.index? " day"
-                $value = $value.sub(" day.*","")
-              elsif $value.index? " time"
-                $value = $value.sub(" time.*","")
+              if value.include? " second"
+                value = value.sub(" second.*","")
+              elsif value.index? " minute"
+                value = value.sub(" minute.*","")
+              elsif value.index? " hour"
+                value = value.sub(" hour.*","")
+              elsif value.index? " day"
+                value = value.sub(" day.*","")
+              elsif value.index? " time"
+                value = value.sub(" time.*","")
               end
 
-              $setting = $setting.downcase.sub(" ","_")
-              $section[$setting] = $value
-            elsif $line.index? " - "
-              $setting = $line.strip.sub("[ ]+-.*","")
-              $value = $line.sub($setting + "[ ]*-","").strip
-              $setting = $setting.downcase.sub(" ","_")
-              $section[$setting] = $value
+              setting = setting.downcase.sub(" ","_")
+              section[setting] = value
+            elsif line.index? " - "
+              setting = line.strip.sub("[ ]+-.*","")
+              value = line.sub(setting + "[ ]*-","").strip
+              setting = setting.downcase.sub(" ","_")
+              section[setting] = value
             end
           end
 
-          $previousLevel = $level
+          previousLevel = level
         end
 
         $ln += 1
       end
 
-      $section
+      section
     end
 
     $ln = 0
