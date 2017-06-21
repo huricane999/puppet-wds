@@ -39,15 +39,17 @@ Facter.add(:wds_conf) do
               value = line.sub(setting + ':','').strip
 
               if value.include? ' second'
-                value = value.sub(' second.*','')
+                value = value.sub(/ second.*/,'')
               elsif value.include? ' minute'
-                value = value.sub(' minute.*','')
+                value = value.sub(/ minute.*/,'')
               elsif value.include? ' hour'
-                value = value.sub(' hour.*','')
+                value = value.sub(/ hour.*/,'')
               elsif value.include? ' day'
-                value = value.sub(' day.*','')
+                value = value.sub(/ day.*/,'')
               elsif value.include? ' time'
-                value = value.sub(' time.*','')
+                value = value.sub(/ time.*/,'')
+              elsif value.include? ' KBps'
+                value = value.sub(/ KBps.*/,'')
               end
 
               setting = setting.downcase.gsub(' ','_')
