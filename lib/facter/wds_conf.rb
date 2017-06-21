@@ -23,7 +23,7 @@ Facter.add(:wds_conf) do
           end
 
           if line.include? ':' and ($ln+1) < $settings.length and ($settings[$ln+1].length - $settings[$ln+1].lstrip.length) > level
-            new_section = line.strip.downcase.sub(':','').sub(' ','_')
+            new_section = line.strip.downcase.gsub(':','').gsub(' ','_')
             $ln += 1
 
             if new_section == 'banned_guids_list' and !($settings[$ln].index(' ') == 0)
