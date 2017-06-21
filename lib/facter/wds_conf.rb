@@ -1,4 +1,6 @@
 Facter.add(:wds_conf) do
+  confine :osfamily => "Windows"
+  
   setcode do
     $settingsRaw = Facter::Util::Resolution.exec('wdsutil /Get-Server /Show:Config')
     $settingsRaw.encode!('UTF-8', 'UTF-16', :invalid => :replace, :undef => :replace, :replace => '', :universal_newline => true)
