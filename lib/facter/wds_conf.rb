@@ -11,8 +11,7 @@ Facter.add(:wds_conf) do
 
       while $ln < $settings.length do
         line = $settings[$ln]
-        section[$ln] = line
-
+        
         if !line.to_s.strip.empty?
           level = line.length - line.lstrip.length
 
