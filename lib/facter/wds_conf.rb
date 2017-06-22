@@ -63,7 +63,7 @@ Facter.add(:wds_conf) do
               end
             elsif line.include? ' - '
               setting = line.strip.sub(/[ ]+-.*/,'')
-              value = line.sub(/{Regexp.escape(setting)}[ ]*-/,'').strip
+              value = line.sub(/^.*[ ]+- /,'').strip
               setting = setting.downcase.gsub(' ','_')
               section[setting] = value
             end
