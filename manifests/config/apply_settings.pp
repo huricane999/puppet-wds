@@ -282,7 +282,7 @@ class wds::config::apply_settings {
   }
 
   #WDS Client Logging Level
-  if $::wds::config::wds_client_logging_level != $::wds_conf[wds_client_policy][logging_policy][loging_level] {
+  if $::wds::config::wds_client_logging_level != $::wds_conf[wds_client_policy][logging_policy][logging_level] {
     exec { 'WDS Server - WDS Client Logging Level':
       command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /WdsClientLogging /LoggingLevel:${::wds::config::wds_client_logging_level}",
     }
