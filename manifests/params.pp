@@ -52,12 +52,12 @@ class wds::params {
   $pxe_prompt_policy_new = 'OptOut'
 
   #Specifies the relative path to the boot programs in the RemoteInstall folder
-  $boot_program_x86 = ''
-  $boot_program_x64 = ''
-  $boot_program_ia64 = ''
-  $n12_boot_program_x86 = ''
-  $n12_boot_program_x64 = ''
-  $n12_boot_program_ia64 = ''
+  $boot_program_x86 = 'Boot\x86\pxeboot.com'
+  $boot_program_x64 = 'Boot\x64\pxeboot.com'
+  $boot_program_ia64 = 'Boot\ia64\bootmgfw.efi'
+  $n12_boot_program_x86 = 'Boot\x86\pxeboot.n12'
+  $n12_boot_program_x64 = 'Boot\x64\pxeboot.n12'
+  $n12_boot_program_ia64 = 'Boot\ia64\bootmgfw.efi'
 
   #Specifies the relative path to the boot image that booting clients should receive
   $boot_image_x86 = ''
