@@ -70,7 +70,7 @@ class wds::config (
   if $initialize {
     exec { 'Initialize WDS Server':
       command  => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
-      unless   => 'C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All',
+      unless   => '[Void]$(C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All); Exit $LastExitCode',
       provider => powershell,
     }
   }
