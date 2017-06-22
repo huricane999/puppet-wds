@@ -69,8 +69,9 @@ class wds::config (
 ) inherits wds {
   if $initialize {
     exec { 'Initialize WDS Server':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
-      unless  => 'C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All',
+      command  => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
+      unless   => 'C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All',
+      provider => powershell,
     }
   }
 
