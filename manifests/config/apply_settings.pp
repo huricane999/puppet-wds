@@ -81,7 +81,7 @@ class wds::config::apply_settings {
   }
 
   #Default X86 X64 Image Type
-  if $::wds::config::default_x86_x64_image_type != $::wds_conf[boot_image_policy][default_x86_x64_image_type] {
+  if $::wds::config::default_x86_x64_image_type != $::wds_conf[boot_image_policy][default_image_type_for_x64_clients] {
     exec { 'WDS Server - Default X86 X64 Image Type':
       command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /DefaultX86X64ImageType:${::wds::config::default_x86_x64_image_type}",
     }
