@@ -380,7 +380,7 @@ class wds::config::apply_settings {
   }
 
   #### Auto Add Settings - x86
-  $auto_add_settings_combined_x86 = merge($::wds::params::auto_add_settings_default, $::wds::config::auto_add_settings_x86)
+  $auto_add_settings_combined_x86 = merge($::wds::params::auto_add_settings_x86, $::wds::config::auto_add_settings_x86)
 
   #Auto Add Settings - x86 - Boot Program
   if $auto_add_settings_combined_x86[boot_program] != $::wds_conf[pending_device_policy][defaults_for_x86][boot_program_path] {
@@ -437,7 +437,7 @@ class wds::config::apply_settings {
   }
 
   #### Auto Add Settings - x64
-  $auto_add_settings_combined_x64 = merge($::wds::params::auto_add_settings_default, $::wds::config::auto_add_settings_x64)
+  $auto_add_settings_combined_x64 = merge($::wds::params::auto_add_settings_x64, $::wds::config::auto_add_settings_x64)
 
   #Auto Add Settings - x64 - Boot Program
   if $auto_add_settings_combined_x64[boot_program] != $::wds_conf[pending_device_policy][defaults_for_x64][boot_program_path] {
@@ -493,7 +493,7 @@ class wds::config::apply_settings {
   }
 
   #### Auto Add Settings - ia64
-  $auto_add_settings_combined_ia64 = merge($::wds::params::auto_add_settings_default, $::wds::config::auto_add_settings_ia64)
+  $auto_add_settings_combined_ia64 = merge($::wds::params::auto_add_settings_ia64, $::wds::config::auto_add_settings_ia64)
 
   #Auto Add Settings - ia64 - Boot Program
   if $auto_add_settings_combined_ia64[boot_program] != $::wds_conf[pending_device_policy][defaults_for_ia64][boot_program_path] {

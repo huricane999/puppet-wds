@@ -104,7 +104,7 @@ class wds::params {
   $auto_add_policy_retention_period_approved = 30
   $auto_add_policy_retention_period_others = 1
 
-  $auto_add_settings_defaults = {
+  $auto_add_settings_x86 = {
     boot_program        => '',
     wds_client_unattend => '',
     referral_server     => '',
@@ -113,9 +113,24 @@ class wds::params {
     join_rights         => 'Full',
     join_domain         => true,
   }
-  $auto_add_settings_x86 = {}
-  $auto_add_settings_x64 = {}
-  $auto_add_settings_ia64 = {}
+  $auto_add_settings_x64 = {
+    boot_program        => '',
+    wds_client_unattend => '',
+    referral_server     => '',
+    boot_image          => '',
+    user                => 'Domain Admins',
+    join_rights         => 'Full',
+    join_domain         => true,
+  }
+  $auto_add_settings_ia64 = {
+    boot_program        => '',
+    wds_client_unattend => '',
+    referral_server     => '',
+    boot_image          => '',
+    user                => 'Domain Admins',
+    join_rights         => 'Full',
+    join_domain         => true,
+  }
 
   # Define the interfaces the PXE listens on (Include | Exclude)
   $bind_policy = 'Exclude'
