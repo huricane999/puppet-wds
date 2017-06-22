@@ -12,13 +12,15 @@ class wds::config::apply_settings {
   }
 
   #Rogue Detection
-  if $::wds::config::rogue_detection and $::wds_conf[pxe_bind_policy][rogue_detection] == 'Not Authorized' {
-    exec { 'WDS Server - Enable Rogue Detection':
-      command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /RogueDetection:Yes',
-    }
-  } elsif !$::wds::config::rogue_detection and $::wds_conf[pxe_bind_policy][rogue_detection] != 'Not Authorized' {
-    exec { 'WDS Server - Disable Rogue Detection':
-      command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /RogueDetection:No',
+  if $::wds_conf[pxe_bind_policy][rogue_detection] != 'Not Authorized' {
+    if $::wds::config::rogue_detection and $::wds_conf[pxe_bind_policy][rogue_detection] == 'Disabled' {
+      exec { 'WDS Server - Enable Rogue Detection':
+        command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /RogueDetection:Yes',
+      }
+    } elsif !$::wds::config::rogue_detection and $::wds_conf[pxe_bind_policy][rogue_detection] != 'Disabled' {
+      exec { 'WDS Server - Disable Rogue Detection':
+        command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /RogueDetection:No',
+      }
     }
   }
 
