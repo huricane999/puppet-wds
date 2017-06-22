@@ -380,163 +380,169 @@ class wds::config::apply_settings {
   }
 
   #### Auto Add Settings - x86
+  $auto_add_settings_combined_x86 = merge($::wds::params::auto_add_settings_default, $::wds::config::auto_add_settings_x86)
+
   #Auto Add Settings - x86 - Boot Program
-  if $::wds::config::auto_add_settings_combined_x86[boot_program] != $::wds_conf[pending_device_policy][defaults_for_x86][boot_program_path] {
+  if $auto_add_settings_combined_x86[boot_program] != $::wds_conf[pending_device_policy][defaults_for_x86][boot_program_path] {
     exec { 'WDS Server - Auto Add Settings - x86 - Boot Program':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootProgram:${::wds::config::auto_add_settings_combined_x86[boot_program]} /Architecture:x86",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootProgram:${auto_add_settings_combined_x86[boot_program]} /Architecture:x86",
     }
   }
 
   #Auto Add Settings - x86 - Boot Image
-  if $::wds::config::auto_add_settings_combined_x86[boot_image] != $::wds_conf[pending_device_policy][defaults_for_x86][boot_image_path] {
+  if $auto_add_settings_combined_x86[boot_image] != $::wds_conf[pending_device_policy][defaults_for_x86][boot_image_path] {
     exec { 'WDS Server - Auto Add Settings - x86 - Boot Image':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootImage:${::wds::config::auto_add_settings_combined_x86[boot_image]} /Architecture:x86",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootImage:${auto_add_settings_combined_x86[boot_image]} /Architecture:x86",
     }
   }
 
   #Auto Add Settings - x86 - Referral Server
-  if $::wds::config::auto_add_settings_combined_x86[referral_server] != $::wds_conf[pending_device_policy][defaults_for_x86][referral_server] {
+  if $auto_add_settings_combined_x86[referral_server] != $::wds_conf[pending_device_policy][defaults_for_x86][referral_server] {
     exec { 'WDS Server - Auto Add Settings - x86 - Referral Server':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /ReferralServer:${::wds::config::auto_add_settings_combined_x86[referral_server]} /Architecture:x86",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /ReferralServer:${auto_add_settings_combined_x86[referral_server]} /Architecture:x86",
     }
   }
 
   #Auto Add Settings - x86 - WDS Client Unattend File
-  if $::wds::config::auto_add_settings_combined_x86[wds_client_unattend] != $::wds_conf[pending_device_policy][defaults_for_x86][wds_client_unattend_file_path] {
+  if $auto_add_settings_combined_x86[wds_client_unattend] != $::wds_conf[pending_device_policy][defaults_for_x86][wds_client_unattend_file_path] {
     exec { 'WDS Server - Auto Add Settings - x86 - WDS Client Unattend File':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /WdsClientUnattend:${::wds::config::auto_add_settings_combined_x86[wds_client_unattend]} /Architecture:x86",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /WdsClientUnattend:${auto_add_settings_combined_x86[wds_client_unattend]} /Architecture:x86",
     }
   }
 
   #Auto Add Settings - x86 - User
-  if $::wds::config::auto_add_settings_combined_x86[user] != $::wds_conf[pending_device_policy][defaults_for_x86][user] {
-    $auto_add_settings_x86_user = $::wds::config::auto_add_settings_combined_x86[user]
+  if $auto_add_settings_combined_x86[user] != $::wds_conf[pending_device_policy][defaults_for_x86][user] {
+    $auto_add_settings_x86_user = $auto_add_settings_combined_x86[user]
     exec { 'WDS Server - Auto Add Settings - x86 - User':
       command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${auto_add_settings_x86_user}\" /Architecture:x86",
     }
   }
 
   #Auto Add Settings - x86 - Join Rights
-  if $::wds::config::auto_add_settings_combined_x86[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x86][join_rights] {
+  if $auto_add_settings_combined_x86[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x86][join_rights] {
     exec { 'WDS Server - Auto Add Settings - x86 - Join Rights':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinRights:${::wds::config::auto_add_settings_combined_x86[join_rights]} /Architecture:x86",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinRights:${auto_add_settings_combined_x86[join_rights]} /Architecture:x86",
     }
   }
 
   #Auto Add Settings - x86 - Join Domain
-  if $::wds::config::auto_add_settings_combined_x86[join_domain] and $::wds_conf[pending_device_policy][defaults_for_x86][join_domain] == 'No' {
+  if $auto_add_settings_combined_x86[join_domain] and $::wds_conf[pending_device_policy][defaults_for_x86][join_domain] == 'No' {
     exec { 'WDS Server - Auto Add Settings - x86 - Join Domain':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinDomain:Yes /Architecture:x86',
     }
-  } elsif !$::wds::config::auto_add_settings_combined_x86[join_domain] and $::wds_conf[pending_device_policy][defaults_for_x86][join_domain] == 'Yes' {
+  } elsif !$auto_add_settings_combined_x86[join_domain] and $::wds_conf[pending_device_policy][defaults_for_x86][join_domain] == 'Yes' {
     exec { 'WDS Server - Auto Add Settings - x86 - Do Not Join Domain':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinDomain:No /Architecture:x86',
     }
   }
 
   #### Auto Add Settings - x64
+  $auto_add_settings_combined_x64 = merge($::wds::params::auto_add_settings_default, $::wds::config::auto_add_settings_x64)
+
   #Auto Add Settings - x64 - Boot Program
-  if $::wds::config::auto_add_settings_combined_x64[boot_program] != $::wds_conf[pending_device_policy][defaults_for_x64][boot_program_path] {
+  if $auto_add_settings_combined_x64[boot_program] != $::wds_conf[pending_device_policy][defaults_for_x64][boot_program_path] {
     exec { 'WDS Server - Auto Add Settings - x64 - Boot Program':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootProgram:${::wds::config::auto_add_settings_combined_x64[boot_program]} /Architecture:x64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootProgram:${auto_add_settings_combined_x64[boot_program]} /Architecture:x64",
     }
   }
 
   #Auto Add Settings - x64 - Boot Image
-  if $::wds::config::auto_add_settings_combined_x64[boot_image] != $::wds_conf[pending_device_policy][defaults_for_x64][boot_image_path] {
+  if $auto_add_settings_combined_x64[boot_image] != $::wds_conf[pending_device_policy][defaults_for_x64][boot_image_path] {
     exec { 'WDS Server - Auto Add Settings - x64 - Boot Image':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootImage:${::wds::config::auto_add_settings_combined_x64[boot_image]} /Architecture:x64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootImage:${auto_add_settings_combined_x64[boot_image]} /Architecture:x64",
     }
   }
 
   #Auto Add Settings - x64 - Referral Server
-  if $::wds::config::auto_add_settings_combined_x64[referral_server] != $::wds_conf[pending_device_policy][defaults_for_x64][referral_server] {
+  if $auto_add_settings_combined_x64[referral_server] != $::wds_conf[pending_device_policy][defaults_for_x64][referral_server] {
     exec { 'WDS Server - Auto Add Settings - x64 - Referral Server':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /ReferralServer:${::wds::config::auto_add_settings_combined_x64[referral_server]} /Architecture:x64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /ReferralServer:${auto_add_settings_combined_x64[referral_server]} /Architecture:x64",
     }
   }
 
   #Auto Add Settings - x64 - WDS Client Unattend File
-  if $::wds::config::auto_add_settings_combined_x64[wds_client_unattend] != $::wds_conf[pending_device_policy][defaults_for_x64][wds_client_unattend_file_path] {
+  if $auto_add_settings_combined_x64[wds_client_unattend] != $::wds_conf[pending_device_policy][defaults_for_x64][wds_client_unattend_file_path] {
     exec { 'WDS Server - Auto Add Settings - x64 - WDS Client Unattend File':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /WdsClientUnattend:${::wds::config::auto_add_settings_combined_x64[wds_client_unattend]} /Architecture:x64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /WdsClientUnattend:${auto_add_settings_combined_x64[wds_client_unattend]} /Architecture:x64",
     }
   }
 
   #Auto Add Settings - x64 - User
-  if $::wds::config::auto_add_settings_combined_x64[user] != $::wds_conf[pending_device_policy][defaults_for_x64][user] {
+  if $auto_add_settings_combined_x64[user] != $::wds_conf[pending_device_policy][defaults_for_x64][user] {
     exec { 'WDS Server - Auto Add Settings - x64 - User':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${::wds::config::auto_add_settings_combined_x64[user]}\" /Architecture:x64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${auto_add_settings_combined_x64[user]}\" /Architecture:x64",
     }
   }
 
   #Auto Add Settings - x64 - Join Rights
-  if $::wds::config::auto_add_settings_combined_x64[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x64][join_rights] {
+  if $auto_add_settings_combined_x64[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x64][join_rights] {
     exec { 'WDS Server - Auto Add Settings - x64 - Join Rights':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinRights:${::wds::config::auto_add_settings_combined_x64[join_rights]} /Architecture:x64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinRights:${auto_add_settings_combined_x64[join_rights]} /Architecture:x64",
     }
   }
 
   #Auto Add Settings - x64 - Join Domain
-  if $::wds::config::auto_add_settings_combined_x64[join_domain] and $::wds_conf[pending_device_policy][defaults_for_x64][join_domain] == 'No' {
+  if $auto_add_settings_combined_x64[join_domain] and $::wds_conf[pending_device_policy][defaults_for_x64][join_domain] == 'No' {
     exec { 'WDS Server - Auto Add Settings - x64 - Join Domain':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinDomain:Yes /Architecture:x64',
     }
-  } elsif !$::wds::config::auto_add_settings_combined_x64[join_domain] and $::wds_conf[pending_device_policy][defaults_for_x64][join_domain] == 'Yes' {
+  } elsif !$auto_add_settings_combined_x64[join_domain] and $::wds_conf[pending_device_policy][defaults_for_x64][join_domain] == 'Yes' {
     exec { 'WDS Server - Auto Add Settings - x64 - Do Not Join Domain':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinDomain:No /Architecture:x64',
     }
   }
 
   #### Auto Add Settings - ia64
+  $auto_add_settings_combined_ia64 = merge($::wds::params::auto_add_settings_default, $::wds::config::auto_add_settings_ia64)
+
   #Auto Add Settings - ia64 - Boot Program
-  if $::wds::config::auto_add_settings_combined_ia64[boot_program] != $::wds_conf[pending_device_policy][defaults_for_ia64][boot_program_path] {
+  if $auto_add_settings_combined_ia64[boot_program] != $::wds_conf[pending_device_policy][defaults_for_ia64][boot_program_path] {
     exec { 'WDS Server - Auto Add Settings - ia64 - Boot Program':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootProgram:${::wds::config::auto_add_settings_combined_ia64[boot_program]} /Architecture:ia64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootProgram:${auto_add_settings_combined_ia64[boot_program]} /Architecture:ia64",
     }
   }
 
   #Auto Add Settings - ia64 - Boot Image
-  if $::wds::config::auto_add_settings_combined_ia64[boot_image] != $::wds_conf[pending_device_policy][defaults_for_ia64][boot_image_path] {
+  if $auto_add_settings_combined_ia64[boot_image] != $::wds_conf[pending_device_policy][defaults_for_ia64][boot_image_path] {
     exec { 'WDS Server - Auto Add Settings - ia64 - Boot Image':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootImage:${::wds::config::auto_add_settings_combined_ia64[boot_image]} /Architecture:ia64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /BootImage:${auto_add_settings_combined_ia64[boot_image]} /Architecture:ia64",
     }
   }
 
   #Auto Add Settings - ia64 - Referral Server
-  if $::wds::config::auto_add_settings_combined_ia64[referral_server] != $::wds_conf[pending_device_policy][defaults_for_ia64][referral_server] {
+  if $auto_add_settings_combined_ia64[referral_server] != $::wds_conf[pending_device_policy][defaults_for_ia64][referral_server] {
     exec { 'WDS Server - Auto Add Settings - ia64 - Referral Server':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /ReferralServer:${::wds::config::auto_add_settings_combined_ia64[referral_server]} /Architecture:ia64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /ReferralServer:${auto_add_settings_combined_ia64[referral_server]} /Architecture:ia64",
     }
   }
 
   #Auto Add Settings - ia64 - WDS Client Unattend File
-  if $::wds::config::auto_add_settings_combined_ia64[wds_client_unattend] != $::wds_conf[pending_device_policy][defaults_for_ia64][wds_client_unattend_file_path] {
+  if $auto_add_settings_combined_ia64[wds_client_unattend] != $::wds_conf[pending_device_policy][defaults_for_ia64][wds_client_unattend_file_path] {
     exec { 'WDS Server - Auto Add Settings - ia64 - WDS Client Unattend File':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /WdsClientUnattend:${::wds::config::auto_add_settings_combined_ia64[wds_client_unattend]} /Architecture:ia64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /WdsClientUnattend:${auto_add_settings_combined_ia64[wds_client_unattend]} /Architecture:ia64",
     }
   }
 
   #Auto Add Settings - ia64 - User
-  if $::wds::config::auto_add_settings_combined_ia64[user] != $::wds_conf[pending_device_policy][defaults_for_ia64][user] {
+  if $auto_add_settings_combined_ia64[user] != $::wds_conf[pending_device_policy][defaults_for_ia64][user] {
     exec { 'WDS Server - Auto Add Settings - ia64 - User':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${::wds::config::auto_add_settings_combined_ia64[user]}\" /Architecture:ia64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /User:\"${auto_add_settings_combined_ia64[user]}\" /Architecture:ia64",
     }
   }
 
   #Auto Add Settings - ia64 - Join Rights
-  if $::wds::config::auto_add_settings_combined_ia64[join_rights] != $::wds_conf[pending_device_policy][defaults_for_ia64][join_rights] {
+  if $auto_add_settings_combined_ia64[join_rights] != $::wds_conf[pending_device_policy][defaults_for_ia64][join_rights] {
     exec { 'WDS Server - Auto Add Settings - ia64 - Join Rights':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinRights:${::wds::config::auto_add_settings_combined_ia64[join_rights]} /Architecture:ia64",
+      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinRights:${auto_add_settings_combined_ia64[join_rights]} /Architecture:ia64",
     }
   }
 
   #Auto Add Settings - ia64 - Join Domain
-  if $::wds::config::auto_add_settings_combined_ia64[join_domain] and $::wds_conf[pending_device_policy][defaults_for_ia64][join_domain] == 'No' {
+  if $auto_add_settings_combined_ia64[join_domain] and $::wds_conf[pending_device_policy][defaults_for_ia64][join_domain] == 'No' {
     exec { 'WDS Server - Auto Add Settings - ia64 - Join Domain':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinDomain:Yes /Architecture:ia64',
     }
-  } elsif !$::wds::config::auto_add_settings_combined_ia64[join_domain] and $::wds_conf[pending_device_policy][defaults_for_ia64][join_domain] == 'Yes' {
+  } elsif !$auto_add_settings_combined_ia64[join_domain] and $::wds_conf[pending_device_policy][defaults_for_ia64][join_domain] == 'Yes' {
     exec { 'WDS Server - Auto Add Settings - ia64 - Do Not Join Domain':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AutoAddSettings /JoinDomain:No /Architecture:ia64',
     }
