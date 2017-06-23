@@ -510,18 +510,11 @@ class wds::config::apply_settings {
       }
     }
 
-    #Auto Add Settings - x86 - User
-    if $auto_add_settings_combined_x86[user] != $::wds_conf[pending_device_policy][defaults_for_x86][user] {
+    #Auto Add Settings - x86 - User + Join Rights
+    if $auto_add_settings_combined_x86[user] != $::wds_conf[pending_device_policy][defaults_for_x86][user] or $auto_add_settings_combined_x86[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x86][join_rights]{
       $auto_add_settings_x86_user = $auto_add_settings_combined_x86[user]
-      exec { 'WDS Server - Auto Add Settings - x86 - User':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_x86_user}\" /Architecture:x86",
-      }
-    }
-
-    #Auto Add Settings - x86 - Join Rights
-    if $auto_add_settings_combined_x86[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x86][join_rights] {
-      exec { 'WDS Server - Auto Add Settings - x86 - Join Rights':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /JoinRights:${auto_add_settings_combined_x86[join_rights]} /Architecture:x86",
+      exec { 'WDS Server - Auto Add Settings - x86 - User + Join Rights':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_x86_user}\" /JoinRights:${auto_add_settings_combined_x86[join_rights]} /Architecture:x86",
       }
     }
 
@@ -569,18 +562,11 @@ class wds::config::apply_settings {
       }
     }
 
-    #Auto Add Settings - x86uefi - User
-    if $auto_add_settings_combined_x86uefi[user] != $::wds_conf[pending_device_policy][defaults_for_x86uefi][user] {
+    #Auto Add Settings - x86uefi - User + Join Rights
+    if $auto_add_settings_combined_x86uefi[user] != $::wds_conf[pending_device_policy][defaults_for_x86uefi][user] or $auto_add_settings_combined_x86uefi[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x86uefi][join_rights] {
       $auto_add_settings_x86uefi_user = $auto_add_settings_combined_x86uefi[user]
-      exec { 'WDS Server - Auto Add Settings - x86uefi - User':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_x86uefi_user}\" /Architecture:x86uefi",
-      }
-    }
-
-    #Auto Add Settings - x86uefi - Join Rights
-    if $auto_add_settings_combined_x86uefi[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x86uefi][join_rights] {
-      exec { 'WDS Server - Auto Add Settings - x86uefi - Join Rights':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /JoinRights:${auto_add_settings_combined_x86uefi[join_rights]} /Architecture:x86uefi",
+      exec { 'WDS Server - Auto Add Settings - x86uefi - User + Join Rights':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_x86uefi_user}\" /JoinRights:${auto_add_settings_combined_x86uefi[join_rights]} /Architecture:x86uefi",
       }
     }
 
@@ -628,17 +614,10 @@ class wds::config::apply_settings {
       }
     }
 
-    #Auto Add Settings - x64 - User
-    if $auto_add_settings_combined_x64[user] != $::wds_conf[pending_device_policy][defaults_for_x64][user] {
-      exec { 'WDS Server - Auto Add Settings - x64 - User':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_combined_x64[user]}\" /Architecture:x64",
-      }
-    }
-
-    #Auto Add Settings - x64 - Join Rights
-    if $auto_add_settings_combined_x64[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x64][join_rights] {
-      exec { 'WDS Server - Auto Add Settings - x64 - Join Rights':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /JoinRights:${auto_add_settings_combined_x64[join_rights]} /Architecture:x64",
+    #Auto Add Settings - x64 - User + Join Rights
+    if $auto_add_settings_combined_x64[user] != $::wds_conf[pending_device_policy][defaults_for_x64][user] or $auto_add_settings_combined_x64[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x64][join_rights] {
+      exec { 'WDS Server - Auto Add Settings - x64 - User + Join Rights':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_combined_x64[user]}\" /JoinRights:${auto_add_settings_combined_x64[join_rights]} /Architecture:x64",
       }
     }
 
@@ -686,17 +665,10 @@ class wds::config::apply_settings {
       }
     }
 
-    #Auto Add Settings - x64uefi - User
-    if $auto_add_settings_combined_x64uefi[user] != $::wds_conf[pending_device_policy][defaults_for_x64uefi][user] {
-      exec { 'WDS Server - Auto Add Settings - x64uefi - User':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_combined_x64uefi[user]}\" /Architecture:x64uefi",
-      }
-    }
-
-    #Auto Add Settings - x64uefi - Join Rights
-    if $auto_add_settings_combined_x64uefi[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x64uefi][join_rights] {
-      exec { 'WDS Server - Auto Add Settings - x64uefi - Join Rights':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /JoinRights:${auto_add_settings_combined_x64uefi[join_rights]} /Architecture:x64uefi",
+    #Auto Add Settings - x64uefi - User + Join Rights
+    if $auto_add_settings_combined_x64uefi[user] != $::wds_conf[pending_device_policy][defaults_for_x64uefi][user] or $auto_add_settings_combined_x64uefi[join_rights] != $::wds_conf[pending_device_policy][defaults_for_x64uefi][join_rights] {
+      exec { 'WDS Server - Auto Add Settings - x64uefi - User + Join Rights':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_combined_x64uefi[user]}\" /JoinRights:${auto_add_settings_combined_x64uefi[join_rights]} /Architecture:x64uefi",
       }
     }
 
@@ -744,17 +716,10 @@ class wds::config::apply_settings {
       }
     }
 
-    #Auto Add Settings - ia64 - User
-    if $auto_add_settings_combined_ia64[user] != $::wds_conf[pending_device_policy][defaults_for_ia64][user] {
-      exec { 'WDS Server - Auto Add Settings - ia64 - User':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_combined_ia64[user]}\" /Architecture:ia64",
-      }
-    }
-
-    #Auto Add Settings - ia64 - Join Rights
-    if $auto_add_settings_combined_ia64[join_rights] != $::wds_conf[pending_device_policy][defaults_for_ia64][join_rights] {
-      exec { 'WDS Server - Auto Add Settings - ia64 - Join Rights':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /JoinRights:${auto_add_settings_combined_ia64[join_rights]} /Architecture:ia64",
+    #Auto Add Settings - ia64 - User + Join Rights
+    if $auto_add_settings_combined_ia64[user] != $::wds_conf[pending_device_policy][defaults_for_ia64][user] or $auto_add_settings_combined_ia64[join_rights] != $::wds_conf[pending_device_policy][defaults_for_ia64][join_rights] {
+      exec { 'WDS Server - Auto Add Settings - ia64 - User + Join Rights':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_combined_ia64[user]}\" /JoinRights:${auto_add_settings_combined_ia64[join_rights]} /Architecture:ia64",
       }
     }
 
@@ -802,17 +767,10 @@ class wds::config::apply_settings {
       }
     }
 
-    #Auto Add Settings - arm - User
-    if $auto_add_settings_combined_arm[user] != $::wds_conf[pending_device_policy][defaults_for_arm][user] {
-      exec { 'WDS Server - Auto Add Settings - arm - User':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_combined_arm[user]}\" /Architecture:arm",
-      }
-    }
-
-    #Auto Add Settings - arm - Join Rights
-    if $auto_add_settings_combined_arm[join_rights] != $::wds_conf[pending_device_policy][defaults_for_arm][join_rights] {
-      exec { 'WDS Server - Auto Add Settings - arm - Join Rights':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /JoinRights:${auto_add_settings_combined_arm[join_rights]} /Architecture:arm",
+    #Auto Add Settings - arm - User + Join Rights
+    if $auto_add_settings_combined_arm[user] != $::wds_conf[pending_device_policy][defaults_for_arm][user] or $auto_add_settings_combined_arm[join_rights] != $::wds_conf[pending_device_policy][defaults_for_arm][join_rights] {
+      exec { 'WDS Server - Auto Add Settings - arm - User + Join Rights':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PendingDeviceSettings /User:\"${auto_add_settings_combined_arm[user]}\" /JoinRights:${auto_add_settings_combined_arm[join_rights]} /Architecture:arm",
       }
     }
 
