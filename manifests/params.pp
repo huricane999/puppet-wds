@@ -113,6 +113,15 @@ class wds::params {
     join_rights         => 'Full',
     join_domain         => true,
   }
+  $auto_add_settings_x86uefi = {
+    boot_program        => '',
+    wds_client_unattend => '',
+    referral_server     => '',
+    boot_image          => '',
+    user                => 'Domain Admins',
+    join_rights         => 'Full',
+    join_domain         => true,
+  }
   $auto_add_settings_x64 = {
     boot_program        => '',
     wds_client_unattend => '',
@@ -122,7 +131,25 @@ class wds::params {
     join_rights         => 'Full',
     join_domain         => true,
   }
+  $auto_add_settings_x64uefi = {
+    boot_program        => '',
+    wds_client_unattend => '',
+    referral_server     => '',
+    boot_image          => '',
+    user                => 'Domain Admins',
+    join_rights         => 'Full',
+    join_domain         => true,
+  }
   $auto_add_settings_ia64 = {
+    boot_program        => '',
+    wds_client_unattend => '',
+    referral_server     => '',
+    boot_image          => '',
+    user                => 'Domain Admins',
+    join_rights         => 'Full',
+    join_domain         => true,
+  }
+  $auto_add_settings_arm = {
     boot_program        => '',
     wds_client_unattend => '',
     referral_server     => '',
