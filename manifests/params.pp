@@ -53,16 +53,25 @@ class wds::params {
 
   #Specifies the relative path to the boot programs in the RemoteInstall folder
   $boot_program_x86 = 'Boot\x86\pxeboot.com'
+  $boot_program_x86uefi = 'Boot\x86\bootmgfw.efi'
   $boot_program_x64 = 'Boot\x64\pxeboot.com'
+  $boot_program_x64uefi = 'Boot\x64\bootmgfw.efi'
   $boot_program_ia64 = 'Boot\ia64\bootmgfw.efi'
+  $boot_program_arm = 'Boot\arm\bootmgfw.efi'
   $n12_boot_program_x86 = 'Boot\x86\pxeboot.n12'
+  $n12_boot_program_x86uefi = 'Boot\x86\bootmgfw.efi'
   $n12_boot_program_x64 = 'Boot\x64\pxeboot.n12'
+  $n12_boot_program_x64uefi = 'Boot\x64\bootmgfw.efi'
   $n12_boot_program_ia64 = 'Boot\ia64\bootmgfw.efi'
+  $n12_boot_program_arm = 'Boot\arm\bootmgfw.efi'
 
   #Specifies the relative path to the boot image that booting clients should receive
   $boot_image_x86 = ''
+  $boot_image_x86uefi = ''
   $boot_image_x64 = ''
+  $boot_image_x64uefi = ''
   $boot_image_ia64 = ''
+  $boot_image_arm = ''
 
   $preferred_dc = ''
   $preferred_gc = ''

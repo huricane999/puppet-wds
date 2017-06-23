@@ -133,65 +133,164 @@ class wds::config::apply_settings {
   }
 
   #Boot Program - x86
-  if $::wds::config::boot_program_x86 != $::wds_conf[boot_program_policy][default_boot_programs][x86] {
-    exec { 'WDS Server - Boot Program - x86':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootProgram:${::wds::config::boot_program_x86} /Architecture:x86",
+  if has_key($::wds_conf[boot_program_policy][default_boot_programs], 'x86') {
+    if $::wds::config::boot_program_x86 != $::wds_conf[boot_program_policy][default_boot_programs][x86] {
+      exec { 'WDS Server - Boot Program - x86':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootProgram:${::wds::config::boot_program_x86} /Architecture:x86",
+      }
+    }
+  }
+
+  #Boot Program - x86uefi
+  if has_key($::wds_conf[boot_program_policy][default_boot_programs], 'x86uefi') {
+    if $::wds::config::boot_program_x86uefi != $::wds_conf[boot_program_policy][default_boot_programs][x86uefi] {
+      exec { 'WDS Server - Boot Program - x86uefi':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootProgram:${::wds::config::boot_program_x86uefi} /Architecture:x86uefi",
+      }
     }
   }
 
   #Boot Program - x64
-  if $::wds::config::boot_program_x64 != $::wds_conf[boot_program_policy][default_boot_programs][x64] {
-    exec { 'WDS Server - Boot Program - x64':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootProgram:${::wds::config::boot_program_x64} /Architecture:x64",
+  if has_key($::wds_conf[boot_program_policy][default_boot_programs], 'x64') {
+    if $::wds::config::boot_program_x64 != $::wds_conf[boot_program_policy][default_boot_programs][x64] {
+      exec { 'WDS Server - Boot Program - x64':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootProgram:${::wds::config::boot_program_x64} /Architecture:x64",
+      }
+    }
+  }
+
+  #Boot Program - x64uefi
+  if has_key($::wds_conf[boot_program_policy][default_boot_programs], 'x64uefi') {
+    if $::wds::config::boot_program_x64uefi != $::wds_conf[boot_program_policy][default_boot_programs][x64uefi] {
+      exec { 'WDS Server - Boot Program - x64uefi':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootProgram:${::wds::config::boot_program_x64uefi} /Architecture:x64uefi",
+      }
     }
   }
 
   #Boot Program - ia64
-  if $::wds::config::boot_program_ia64 != $::wds_conf[boot_program_policy][default_boot_programs][ia64] {
-    exec { 'WDS Server - Boot Program - ia64':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootProgram:${::wds::config::boot_program_ia64} /Architecture:ia64",
+  if has_key($::wds_conf[boot_program_policy][default_boot_programs], 'ia64') {
+    if $::wds::config::boot_program_ia64 != $::wds_conf[boot_program_policy][default_boot_programs][ia64] {
+      exec { 'WDS Server - Boot Program - ia64':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootProgram:${::wds::config::boot_program_ia64} /Architecture:ia64",
+      }
+    }
+  }
+
+  #Boot Program - arm
+  if has_key($::wds_conf[boot_program_policy][default_boot_programs], 'arm') {
+    if $::wds::config::boot_program_arm != $::wds_conf[boot_program_policy][default_boot_programs][arm] {
+      exec { 'WDS Server - Boot Program - arm':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootProgram:${::wds::config::boot_program_arm} /Architecture:arm",
+      }
     }
   }
 
   #N12 Boot Program - x86
-  if $::wds::config::n12_boot_program_x86 != $::wds_conf[boot_program_policy][default_n12_boot_programs][x86] {
-    exec { 'WDS Server - N12 Boot Program - x86':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /N12BootProgram:${::wds::config::n12_boot_program_x86} /Architecture:x86",
+  if has_key($::wds_conf[boot_program_policy][default_n12_boot_programs], 'x86') {
+    if $::wds::config::n12_boot_program_x86 != $::wds_conf[boot_program_policy][default_n12_boot_programs][x86] {
+      exec { 'WDS Server - N12 Boot Program - x86':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /N12BootProgram:${::wds::config::n12_boot_program_x86} /Architecture:x86",
+      }
+    }
+  }
+
+  #N12 Boot Program - x86uefi
+  if has_key($::wds_conf[boot_program_policy][default_n12_boot_programs], 'x86uefi') {
+    if $::wds::config::n12_boot_program_x86uefi != $::wds_conf[boot_program_policy][default_n12_boot_programs][x86uefi] {
+      exec { 'WDS Server - N12 Boot Program - x86uefi':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /N12BootProgram:${::wds::config::n12_boot_program_x86uefi} /Architecture:x86uefi",
+      }
     }
   }
 
   #N12 Boot Program - x64
-  if $::wds::config::n12_boot_program_x64 != $::wds_conf[boot_program_policy][default_n12_boot_programs][x64] {
-    exec { 'WDS Server - N12 Boot Program - x64':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /N12BootProgram:${::wds::config::n12_boot_program_x64} /Architecture:x64",
+  if has_key($::wds_conf[boot_program_policy][default_n12_boot_programs], 'x64') {
+    if $::wds::config::n12_boot_program_x64 != $::wds_conf[boot_program_policy][default_n12_boot_programs][x64] {
+      exec { 'WDS Server - N12 Boot Program - x64':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /N12BootProgram:${::wds::config::n12_boot_program_x64} /Architecture:x64",
+      }
+    }
+  }
+
+  #N12 Boot Program - x64uefi
+  if has_key($::wds_conf[boot_program_policy][default_n12_boot_programs], 'x64uefi') {
+    if $::wds::config::n12_boot_program_x64uefi != $::wds_conf[boot_program_policy][default_n12_boot_programs][x64uefi] {
+      exec { 'WDS Server - N12 Boot Program - x64uefi':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /N12BootProgram:${::wds::config::n12_boot_program_x64uefi} /Architecture:x64uefi",
+      }
     }
   }
 
   #N12 Boot Program - ia64
-  if $::wds::config::n12_boot_program_ia64 != $::wds_conf[boot_program_policy][default_n12_boot_programs][ia64] {
-    exec { 'WDS Server - N12 Boot Program - ia64':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /N12BootProgram:${::wds::config::n12_boot_program_ia64} /Architecture:ia64",
+  if has_key($::wds_conf[boot_program_policy][default_n12_boot_programs], 'ia64') {
+    if $::wds::config::n12_boot_program_ia64 != $::wds_conf[boot_program_policy][default_n12_boot_programs][ia64] {
+      exec { 'WDS Server - N12 Boot Program - ia64':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /N12BootProgram:${::wds::config::n12_boot_program_ia64} /Architecture:ia64",
+      }
+    }
+  }
+
+  #N12 Boot Program - arm
+  if has_key($::wds_conf[boot_program_policy][default_n12_boot_programs], 'arm') {
+    if $::wds::config::n12_boot_program_arm != $::wds_conf[boot_program_policy][default_n12_boot_programs][arm] {
+      exec { 'WDS Server - N12 Boot Program - arm':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /N12BootProgram:${::wds::config::n12_boot_program_arm} /Architecture:arm",
+      }
     }
   }
 
   #Boot Image - x86
-  if $::wds::config::boot_image_x86 != $::wds_conf[boot_image_policy][default_boot_images][x86] {
-    exec { 'WDS Server - Boot Image - x86':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootImage:${::wds::config::boot_image_x86} /Architecture:x86",
+  if has_key($::wds_conf[boot_image_policy][default_boot_images], 'x86') {
+    if $::wds::config::boot_image_x86 != $::wds_conf[boot_image_policy][default_boot_images][x86] {
+      exec { 'WDS Server - Boot Image - x86':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootImage:${::wds::config::boot_image_x86} /Architecture:x86",
+      }
+    }
+  }
+
+  #Boot Image - x86uefi
+  if has_key($::wds_conf[boot_image_policy][default_boot_images], 'x86uefi') {
+    if $::wds::config::boot_image_x86uefi != $::wds_conf[boot_image_policy][default_boot_images][x86uefi] {
+      exec { 'WDS Server - Boot Image - x86uefi':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootImage:${::wds::config::boot_image_x86uefi} /Architecture:x86uefi",
+      }
     }
   }
 
   #Boot Image - x64
-  if $::wds::config::boot_image_x64 != $::wds_conf[boot_image_policy][default_boot_images][x64] {
-    exec { 'WDS Server - Boot Image - x64':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootImage:${::wds::config::boot_image_x64} /Architecture:x64",
+  if has_key($::wds_conf[boot_image_policy][default_boot_images], 'x64') {
+    if $::wds::config::boot_image_x64 != $::wds_conf[boot_image_policy][default_boot_images][x64] {
+      exec { 'WDS Server - Boot Image - x64':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootImage:${::wds::config::boot_image_x64} /Architecture:x64",
+      }
+    }
+  }
+
+  #Boot Image - x64uefi
+  if has_key($::wds_conf[boot_image_policy][default_boot_images], 'x64uefi') {
+    if $::wds::config::boot_image_x64uefi != $::wds_conf[boot_image_policy][default_boot_images][x64uefi] {
+      exec { 'WDS Server - Boot Image - x64uefi':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootImage:${::wds::config::boot_image_x64uefi} /Architecture:x64uefi",
+      }
     }
   }
 
   #Boot Image - ia64
-  if $::wds::config::boot_image_ia64 != $::wds_conf[boot_image_policy][default_boot_images][ia64] {
-    exec { 'WDS Server - Boot Image - ia64':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootImage:${::wds::config::boot_image_ia64} /Architecture:ia64",
+  if has_key($::wds_conf[boot_image_policy][default_boot_images], 'ia64') {
+    if $::wds::config::boot_image_ia64 != $::wds_conf[boot_image_policy][default_boot_images][ia64] {
+      exec { 'WDS Server - Boot Image - ia64':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootImage:${::wds::config::boot_image_ia64} /Architecture:ia64",
+      }
+    }
+  }
+
+  #Boot Image - arm
+  if has_key($::wds_conf[boot_image_policy][default_boot_images], 'arm') {
+    if $::wds::config::boot_image_arm != $::wds_conf[boot_image_policy][default_boot_images][arm] {
+      exec { 'WDS Server - Boot Image - arm':
+        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /BootImage:${::wds::config::boot_image_arm} /Architecture:arm",
+      }
     }
   }
 
