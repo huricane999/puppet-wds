@@ -186,17 +186,5 @@ class wds::config (
     class { '::wds::config::apply_settings':
       require => Exec['Initialize WDS Server'],
     }
-
-    if $::wds::enable_service {
-      exec { 'Enable WDS Services':
-        command => 'C:\Windows\System32\wdsutil.exe /Enable-Server',
-        require => Exec['Initialize WDS Server'],
-      }
-    } else {
-      exec { 'Disable WDS Services':
-        command => 'C:\Windows\System32\wdsutil.exe /Disable-Server',
-        require => Exec['Initialize WDS Server'],
-      }
-    }
   }
 }
