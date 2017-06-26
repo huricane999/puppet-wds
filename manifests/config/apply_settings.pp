@@ -326,20 +326,24 @@ class wds::config::apply_settings {
     }
   }
 
-  #New Machine Type
-  if $::wds::config::new_machine_type != $::wds_conf[new_computer_ou][ou_type] {
-    exec { 'WDS Server - New Machine Type':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /NewMachineOU /Type:${::wds::config::new_machine_type}",
+  #New Machine Type + OU
+  if $::wds::config::new_machine_type != $::wds_conf[new_computer_ou][ou_type] or $::wds::config::new_machine_ou != $::wds_conf[new_computer_ou][ou] {
+    case $::wds::config::new_machine_type {
+      'Custom': {
+          exec { 'WDS Server - New Machine OU':
+            command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /NewMachineOU /Type:${::wds::config::new_machine_type} /OU:\"${::wds::config::new_machine_ou}\"",
+          }
+        }
+      }
+      default: {
+        exec { 'WDS Server - New Machine Type':
+          command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /NewMachineOU /Type:${::wds::config::new_machine_type}",
+        }
+      }
     }
+    
   }
-
-  #New Machine OU
-  if $::wds::config::new_machine_ou != $::wds_conf[new_computer_ou][ou] {
-    exec { 'WDS Server - New Machine OU':
-      command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /NewMachineOU /OU:${::wds::config::new_machine_ou}",
-    }
-  }
-
+  
   #Domain Search Order
   case $::wds::config::domain_search_order {
     'DCFirst': {
