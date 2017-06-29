@@ -509,7 +509,7 @@ class wds::config::apply_settings {
     }
   }
 
-  if has_key($::wds_conf, 'boot_image_policy', 'x86') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'x86') {
+  if has_key($::wds_conf, 'boot_image_policy') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'x86') {
     #### Auto Add Settings - x86
     $auto_add_settings_combined_x86 = merge($::wds::params::auto_add_settings_x86, $::wds::config::auto_add_settings_x86)
 
@@ -561,7 +561,7 @@ class wds::config::apply_settings {
     }
   }
 
-  if has_key($::wds_conf, 'boot_image_policy', 'x86') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'x86uefi') {
+  if has_key($::wds_conf, 'boot_image_policy') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'x86uefi') {
     #### Auto Add Settings - x86uefi
     $auto_add_settings_combined_x86uefi = merge($::wds::params::auto_add_settings_x86uefi, $::wds::config::auto_add_settings_x86uefi)
 
@@ -613,7 +613,7 @@ class wds::config::apply_settings {
     }
   }
 
-  if has_key($::wds_conf, 'boot_image_policy', 'x86') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'x64') {
+  if has_key($::wds_conf, 'boot_image_policy') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'x64') {
     #### Auto Add Settings - x64
     $auto_add_settings_combined_x64 = merge($::wds::params::auto_add_settings_x64, $::wds::config::auto_add_settings_x64)
 
@@ -664,7 +664,7 @@ class wds::config::apply_settings {
     }
   }
 
-  if has_key($::wds_conf, 'boot_image_policy', 'x86') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'x64uefi') {
+  if has_key($::wds_conf, 'boot_image_policy') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'x64uefi') {
     #### Auto Add Settings - x64uefi
     $auto_add_settings_combined_x64uefi = merge($::wds::params::auto_add_settings_x64uefi, $::wds::config::auto_add_settings_x64uefi)
 
@@ -715,7 +715,7 @@ class wds::config::apply_settings {
     }
   }
 
-  if has_key($::wds_conf, 'boot_image_policy', 'x86') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'ia64') {
+  if has_key($::wds_conf, 'boot_image_policy') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'ia64') {
     #### Auto Add Settings - ia64
     $auto_add_settings_combined_ia64 = merge($::wds::params::auto_add_settings_ia64, $::wds::config::auto_add_settings_ia64)
 
@@ -766,7 +766,7 @@ class wds::config::apply_settings {
     }
   }
 
-  if has_key($::wds_conf, 'boot_image_policy', 'x86') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'arm') {
+  if has_key($::wds_conf, 'boot_image_policy') and has_key($::wds_conf[boot_image_policy], 'default_boot_images') and has_key($::wds_conf[boot_image_policy][default_boot_images], 'arm') {
     #### Auto Add Settings - arm
     $auto_add_settings_combined_arm = merge($::wds::params::auto_add_settings_arm, $::wds::config::auto_add_settings_arm)
 
