@@ -904,7 +904,7 @@ class wds::config::apply_settings {
 
   #Transport Profile
   if !has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'network_profile') or $::wds_conf[wds_transport_server_policy][network_profile] != '<Not Applicable>' {
-    if $::wds::config::transport_profile != $::wds_conf[wds_transport_server_policy][network_profile] {
+    if !has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'network_profile') or $::wds_conf[wds_transport_server_policy][network_profile] != $::wds::config::transport_profile {
       exec { 'WDS Server - Transport Profile':
         command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /Transport /Profile:${::wds::config::transport_profile}",
       }
