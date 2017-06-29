@@ -302,7 +302,7 @@ class wds::config::apply_settings {
   }
 
   #Preferred GC
-  if $::wds_conf[active_directory_use_policy][preferred_gc] != $::wds::config::preferred_gc {
+  if !has_key($::wds_conf, 'active_directory_use_policy') or !has_key($::wds_conf[active_directory_use_policy], 'preferred_gc') or $::wds_conf[active_directory_use_policy][preferred_gc] != $::wds::config::preferred_gc {
     exec { 'WDS Server - Preferred GC':
       command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /PreferredGC:${::wds::config::preferred_gc}",
     }
