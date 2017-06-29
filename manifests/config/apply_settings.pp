@@ -822,7 +822,7 @@ class wds::config::apply_settings {
     exec { 'WDS Server - Bind Policy - Include Registered':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /BindPolicy /Policy:Include',
     }
-  } elsif $::wds::config::bind_policy == 'Exclude' and $::wds_conf[interface_bind_policy][policy] == 'Include Registered' {
+  } elsif $::wds::config::bind_policy == 'Exclude' and (!has_key($::wds_conf, 'interface_bind_policy') or !has_key($::wds_conf[interface_bind_policy], 'policy') or $::wds_conf[interface_bind_policy][policy] == 'Include Registered') {
     exec { 'WDS Server - Bind Policy - Exclude Registered':
       command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /BindPolicy /Policy:Exclude',
     }
