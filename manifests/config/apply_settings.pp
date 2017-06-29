@@ -411,7 +411,7 @@ class wds::config::apply_settings {
     }
   }
 
-  if has_key($::wds_conf, 'wds_client_policy') and has_key($::wds_conf[wds_client_policy], 'unattend_policy') and has_key($::wds_conf[wds_client_policy][unattend_policy], 'wds_unattend_files')
+  if has_key($::wds_conf, 'wds_client_policy') and has_key($::wds_conf[wds_client_policy], 'unattend_policy') and has_key($::wds_conf[wds_client_policy][unattend_policy], 'wds_unattend_files') {
     #WDS Unattend File - x86
     if is_hash($::wds_conf[wds_client_policy][unattend_policy][wds_unattend_files]) and has_key($::wds_conf[wds_client_policy][unattend_policy][wds_unattend_files], 'x86') {
       if $::wds::config::wds_unattend_file_x86 != $::wds_conf[wds_client_policy][unattend_policy][wds_unattend_files][x86] {
