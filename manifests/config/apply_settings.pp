@@ -895,7 +895,7 @@ class wds::config::apply_settings {
 
   #Transport Start/End Port
   if !has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'udp_port_policy_dynamic') {
-    if $::wds::config::transport_start_port != $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][start_port] or $::wds::config::transport_end_port != $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][end_port] {
+    if (!has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'udp_port_policy_dynamic') or !has_key($::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic], 'start_port') or $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][start_port] != $::wds::config::transport_start_port) or (!has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'udp_port_policy_dynamic') or !has_key($::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic], 'end_port') or $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][end_port] != $::wds::config::transport_end_port) {
       exec { 'WDS Server - Transport Start/End Port':
         command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /Transport /StartPort:${::wds::config::transport_start_port} /EndPort:${::wds::config::transport_end_port}",
       }
