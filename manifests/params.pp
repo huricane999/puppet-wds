@@ -98,8 +98,11 @@ class wds::params {
   $wds_unattend_policy = false
   $wds_unattend_commandline_precedence = false
   $wds_unattend_file_x86 = ''
+  $wds_unattend_file_x86uefi = ''
   $wds_unattend_file_x64 = ''
+  $wds_unattend_file_x64uefi = ''
   $wds_unattend_file_ia64 = ''
+  $wds_unattend_file_arm = ''
 
   # (AdminApproval | Disabled)
   $auto_add_policy = 'Disabled'
