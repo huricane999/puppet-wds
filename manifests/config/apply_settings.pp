@@ -86,7 +86,7 @@ class wds::config::apply_settings {
   }
 
   #Set DHCP Option 60 - Needs Microsoft DHCP Service
-  if !has_key($::wds_conf, 'dhcp_configuration') or !has_key($::wds_conf[dhcp_configuration], 'dhcp_service_status') or $::wds_conf[dhcp_configuration][dhcp_service_status] == 'Installed' {
+  if has_key($::wds_conf, 'dhcp_configuration') and has_key($::wds_conf[dhcp_configuration], 'dhcp_service_status') and $::wds_conf[dhcp_configuration][dhcp_service_status] == 'Installed' {
     if $::wds::config::dhcp_option_60 and (!has_key($::wds_conf, 'dhcp_configuration') or !has_key($::wds_conf[dhcp_configuration], 'dhcp_option_60_configured') or $::wds_conf[dhcp_configuration][dhcp_option_60_configured] == 'No') {
       exec { 'WDS Server - Set DHCP Option 60':
         command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /DhcpOption60:Yes',
