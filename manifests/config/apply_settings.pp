@@ -1,4 +1,4 @@
-# Class wds::config
+# Class wds::config::apply_settings
 class wds::config::apply_settings {
   #Authorize
   if $::wds::config::authorize and (!has_key($::wds_conf, 'server_authorization') or !has_key($::wds_conf[server_authorization], 'authorization_state') or $::wds_conf[server_authorization][authorization_state] == 'Not Authorized') {
@@ -56,19 +56,6 @@ class wds::config::apply_settings {
     }
   }
 
-  #Allow N12 for New Clients
-  if !has_key($::wds_conf, 'boot_program_policy') or !has_key($::wds_conf[boot_program_policy], 'allow_n12_for_new_clients') or $::wds_conf[boot_program_policy][allow_n12_for_new_clients] != '<Not Applicable>' {
-    if $::wds::config::allow_n12_for_new_clients and (!has_key($::wds_conf, 'boot_program_policy') or !has_key($::wds_conf[boot_program_policy], 'allow_n12_for_new_clients') or $::wds_conf[boot_program_policy][allow_n12_for_new_clients] == 'No') {
-      exec { 'WDS Server - Allow N12 for New Clients':
-        command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AllowN12ForNewClients:Yes',
-      }
-    } elsif !$::wds::config::allow_n12_for_new_clients and (!has_key($::wds_conf, 'boot_program_policy') or !has_key($::wds_conf[boot_program_policy], 'allow_n12_for_new_clients') or $::wds_conf[boot_program_policy][allow_n12_for_new_clients] == 'Yes') {
-      exec { 'WDS Server - Disallow N12 for New Clients':
-        command => 'C:\\Windows\\System32\\wdsutil.exe /Set-Server /AllowN12ForNewClients:No',
-      }
-    }
-  }
-
   #Reset Boot Program
   if $::wds::config::reset_boot_program and (!has_key($::wds_conf, 'boot_program_policy') or !has_key($::wds_conf[boot_program_policy], 'reset_boot_program') or $::wds_conf[boot_program_policy][reset_boot_program] == 'No') {
     exec { 'WDS Server - Reset Boot Program':
@@ -98,7 +85,7 @@ class wds::config::apply_settings {
     }
   }
 
-  #Set DHCP Option 60
+  #Set DHCP Option 60 - Needs Microsoft DHCP Service
   if !has_key($::wds_conf, 'dhcp_configuration') or !has_key($::wds_conf[dhcp_configuration], 'dhcp_service_status') or $::wds_conf[dhcp_configuration][dhcp_service_status] == 'Installed' {
     if $::wds::config::dhcp_option_60 and (!has_key($::wds_conf, 'dhcp_configuration') or !has_key($::wds_conf[dhcp_configuration], 'dhcp_option_60_configured') or $::wds_conf[dhcp_configuration][dhcp_option_60_configured] == 'No') {
       exec { 'WDS Server - Set DHCP Option 60':
@@ -894,19 +881,10 @@ class wds::config::apply_settings {
   }
 
   #Transport Start/End Port
-  if !has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'udp_port_policy_dynamic') {
-    if (!has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'udp_port_policy_dynamic') or !has_key($::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic], 'start_port') or $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][start_port] != $::wds::config::transport_start_port) or (!has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'udp_port_policy_dynamic') or !has_key($::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic], 'end_port') or $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][end_port] != $::wds::config::transport_end_port) {
+  if has_key($::wds_conf, 'wds_transport_server_policy') and has_key($::wds_conf[wds_transport_server_policy], 'udp_port_policy_dynamic') {
+    if (has_key($::wds_conf, 'wds_transport_server_policy') and has_key($::wds_conf[wds_transport_server_policy], 'udp_port_policy_dynamic') and has_key($::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic], 'start_port') and $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][start_port] != '<Not Applicable>' and $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][start_port] != $::wds::config::transport_start_port) or (has_key($::wds_conf, 'wds_transport_server_policy') and has_key($::wds_conf[wds_transport_server_policy], 'udp_port_policy_dynamic') and has_key($::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic], 'end_port') and $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][end_port] != '<Not Applicable>' and $::wds_conf[wds_transport_server_policy][udp_port_policy_dynamic][end_port] != $::wds::config::transport_end_port) {
       exec { 'WDS Server - Transport Start/End Port':
         command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /Transport /StartPort:${::wds::config::transport_start_port} /EndPort:${::wds::config::transport_end_port}",
-      }
-    }
-  }
-
-  #Transport Profile
-  if !has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'network_profile') or $::wds_conf[wds_transport_server_policy][network_profile] != '<Not Applicable>' {
-    if !has_key($::wds_conf, 'wds_transport_server_policy') or !has_key($::wds_conf[wds_transport_server_policy], 'network_profile') or $::wds_conf[wds_transport_server_policy][network_profile] != $::wds::config::transport_profile {
-      exec { 'WDS Server - Transport Profile':
-        command => "C:\\Windows\\System32\\wdsutil.exe /Set-Server /Transport /Profile:${::wds::config::transport_profile}",
       }
     }
   }

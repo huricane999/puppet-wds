@@ -160,12 +160,16 @@ class wds::config (
     fail("::wds::config::transport_obtain_ipv6_from (${transport_obtain_ipv6_from}) must be 'Dhcp' or 'Range'")
   }
 
-  if $transport_start_port < 0 {
-    fail("::wds::config::transport_start_port (${transport_start_port}) must be greater than or equal to 0")
+  if $transport_start_port < 1025 or $transport_start_port > 65536 {
+    fail("::wds::config::transport_start_port (${transport_start_port}) must be between 1025 and 65536")
   }
 
-  if $transport_end_port < 0 {
-    fail("::wds::config::transport_end_port (${transport_end_port}) must be greater than or equal to 0")
+  if $transport_end_port < 1025 or $transport_end_port > 65536 {
+    fail("::wds::config::transport_end_port (${transport_end_port}) must be between 1025 and 65536")
+  }
+
+  if $transport_end_port < $transport_start_port {
+    fail("::wds::config::transport_end_port (${transport_end_port}) must be greater than or equal to ::wds::config::transport_start_port (${transport_start_port})")
   }
 
   if $transport_profile != '10Mbps' and $transport_profile != '100Mbps' and $transport_profile != '1Gbps' and $transport_profile != 'Custom' {
@@ -194,6 +198,12 @@ class wds::config (
 
     class { '::wds::config::apply_settings':
       require => Exec['Initialize WDS Server'],
+    }
+
+    if versioncmp($::os[release][major], '2012') <= 0 {
+      class { '::wds::config::apply_settings_2012r2':
+        require => Exec['Initialize WDS Server'],
+      }
     }
   }
 }

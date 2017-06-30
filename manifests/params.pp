@@ -195,8 +195,8 @@ class wds::params {
   $transport_obtain_ipv6_from_start = 'FF15::1:1'
   $transport_obtain_ipv6_from_end = 'FF15::1:FF'
 
-  $transport_start_port = 0
-  $transport_end_port = 0
+  $transport_start_port = 1025
+  $transport_end_port = 65536
 
   # (10Mbps | 100Mbps | 1Gbps | custom)
   $transport_profile = '1Gbps'
