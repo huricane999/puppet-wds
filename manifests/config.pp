@@ -82,14 +82,6 @@ class wds::config (
   Boolean $transport_multicast_session_policy_fallback = $::wds::params::transport_multicast_session_policy_fallback,
   Boolean $transport_force_native = $::wds::params::transport_force_native,
 ) inherits wds {
-  if $initialize {
-    exec { 'Initialize WDS Server':
-      command  => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
-      unless   => '[Void]$(C:\\Windows\\System32\\wdsutil.exe /Get-Server /Show:All); Exit $LastExitCode',
-      provider => powershell,
-    }
-  }
-
   if $answer_clients != 'All' and $answer_clients != 'Known' and $answer_clients != 'None' {
     fail("::wds::config::answer_clients (${answer_clients}) must be one of 'All', 'Known', or 'None'")
   }
@@ -199,6 +191,14 @@ class wds::config (
       exec { 'Uninitialize WDS Server - Remote Install Path Change':
         command => 'C:\\Windows\\System32\\wdsutil.exe /Uninitialize-Server',
         before  => Exec['Initialize WDS Server'],
+      }
+
+      exec { 'Initialize WDS Server':
+        command  => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
+      }
+    } elsif $initialize and has_key($::wds_conf, 'server_state') and has_key($::wds_conf['server_state'], 'wds_operational_mode') and $::wds_conf['server_state']['wds_operational_mode'] == 'Not Configured' {
+      exec { 'Initialize WDS Server':
+        command  => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
       }
     }
 
