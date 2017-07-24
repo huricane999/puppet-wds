@@ -190,15 +190,20 @@ class wds::config (
     if has_key($::wds_conf, 'installation_state') and has_key($::wds_conf['installation_state'], 'remoteinstall_location') and $remote_install_path != $::wds_conf['installation_state']['remoteinstall_location'] {
       exec { 'Uninitialize WDS Server - Remote Install Path Change':
         command => 'C:\\Windows\\System32\\wdsutil.exe /Uninitialize-Server',
-        before  => Exec['Initialize WDS Server'],
+        notify  => Exec['Initialize WDS Server'],
       }
+    }
 
-      exec { 'Initialize WDS Server':
-        command  => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
-      }
-    } elsif $initialize and has_key($::wds_conf, 'server_state') and has_key($::wds_conf['server_state'], 'wds_operational_mode') and $::wds_conf['server_state']['wds_operational_mode'] == 'Not Configured' {
-      exec { 'Initialize WDS Server':
-        command  => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
+    if $initialize {
+      if has_key($::wds_conf, 'server_state') and has_key($::wds_conf['server_state'], 'wds_operational_mode') and $::wds_conf['server_state']['wds_operational_mode'] == 'Not Configured' {
+        exec { 'Initialize WDS Server':
+          command  => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
+        }
+      } else {
+        exec { 'Initialize WDS Server':
+          command     => "C:\\Windows\\System32\\wdsutil.exe /Initialize-Server /reminst:\"${remote_install_path}\"",
+          refreshonly => true,
+        }
       }
     }
 
